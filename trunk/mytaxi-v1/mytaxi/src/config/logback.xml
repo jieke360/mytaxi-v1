@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration debug="true">
+	<!-- 指定日志路径 -->
+	<substitutionProperty name="log.base" value="${catalina.base}/logs/mytaxi/mytaxi" />
+
+	<!-- jmx管理，logback支持jmx随时重载 -->
+	<jmxConfigurator />
+
+	<!-- 控制台输出 -->
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date{yyyy-MM-dd hh:mm} %-5level %logger{10} - %msg%n</pattern>
+		</layout>
+	</appender>
+	<!-- 输出文件 -->
+	<appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${log.base}.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${log.base}.%d{yyyy-MM-dd}.zip</FileNamePattern>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date [%thread] %-5level %logger{80} - %msg%n</pattern>
+		</layout>
+	</appender>
+	<logger name="com.great.mytaxi">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="org.springframework">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.apache.struts2">
+		<level value="WARN" />
+	</logger>
+	<logger name="com.opensymphony.xwork2">
+		<level value="WARN" />
+	</logger>
+	<logger name="com.opensymphony.xwork2.ognl.OgnlValueStack">
+		<level value="WARN" />
+	</logger>
+	<logger name="com.opensymphony.xwork2.interceptor.ExceptionMappingInterceptor">
+		<level value="WARN" />
+	</logger>
+	<root>
+		<level value="WARN" />
+		<appender-ref ref="stdout" />
+		<appender-ref ref="logfile" />
+	</root>
+</configuration>
+
