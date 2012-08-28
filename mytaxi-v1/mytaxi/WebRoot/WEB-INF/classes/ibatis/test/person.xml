@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="GBK" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="demo.person">
+
+	<typeAlias alias="person" type="com.great.mytaxi.demo.bean.Person" />
+
+	<insert id="insert" parameterClass="person">
+		insert into tb_person
+			(id,name) 
+		values
+			(#id#,#name#)
+			<!-- mysql自增长主键 -->
+	   <selectKey resultClass="int" type="post" keyProperty="id" >  
+      		 select LAST_INSERT_ID() as value  
+	   </selectKey> 
+	</insert>
+
+</sqlMap>

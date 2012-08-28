@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="GBK" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="common.keyDao">
+	
+	<typeAlias alias="keyCond" type="com.great.mytaxi.common.cond.KeyCond"/>
+		
+	<select id="getKey" parameterClass="keyCond" resultClass="string">
+		select getSeqNo(#name#,#flagStr#)
+	</select>
+
+</sqlMap>
