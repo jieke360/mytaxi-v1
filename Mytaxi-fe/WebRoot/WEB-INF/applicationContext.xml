@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-lazy-init="false" default-autowire="byName">
+
+
+	<context:component-scan base-package="com.angelshine.HmsMain" />  
+	
+	<bean id="beanContext" class="com.great.mytaxi.fe.base.BeanContext" />
+	
+	<bean id="sysInfoDao" class="com.great.mytaxi.fe.common.dao.impl.SysInfoDaoImpl" />
+	
+	<bean id="sysInfo" class="com.great.mytaxi.fe.common.config.SysInfo">
+		<property name="sysInfoDao" ref="sysInfoDao"></property>
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<!-- local:只能使用本配置文件中的bean          parent：只能使用父配置文件中的bean     bean：没有任何限制 。当beanid只有一个的时候，可以省略bean  即：  ref="dataSource"-->
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="database" value="MYSQL" />
+				<property name="showSql" value="true" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/mytaxi" />
+		<property name="user" value="root" />
+		<property name="password" value="123456" />
+		<property name="idleConnectionTestPeriod" value="3600" />
+		<property name="automaticTestTable" value="tb_test" />
+	</bean>
+
+
+
+	<bean id="BeanContext" class="com.great.mytaxi.fe.base.BeanContext" />
+	<bean id="T_LoginRequest" class="com.great.mytaxi.fe.business.impl.LoginRequestImpl">
+	</bean>
+
+
+<tx:annotation-driven transaction-manager="transactionManager" />
+	<!-- <bean id="secrityAdvice" class="com.great.mytaxi.fe.common.exception.AfterProcess"></bean> 
+		<bean id="secrityAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor"> 
+		<constructor-arg> <ref local="secrityAdvice" /> </constructor-arg> <property 
+		name="patterns"> <list> <value>/*</value> </list> </property> </bean> <bean 
+		id="beforeMethodInterceptor" class = "org.springframework.aop.support.NameMatchMethodPointcutAdvisor"> 
+		<property name="advice"> <bean class="com.mytaxi.test.aop.MethodBeforeInterceptor"></bean> 
+		</property> <property name="mappedName" value="withAop"> </property> </bean> 
+		<bean id="aopDemo" class="org.springframework.aop.framework.ProxyFactoryBean"> 
+		<property name="interceptorNames"> <list> <value>beforeMethodInterceptor</value> 
+		</list> </property> <property name="target"> <bean class="com.mytaxi.test.aop.impl.IAopServiceImpl"></bean> 
+		</property> </bean> -->
+</beans>
